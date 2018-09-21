@@ -22,54 +22,25 @@ function setup() {
 function Particle() {
 	
 	this.setup = function(x, y, w) {
-		//this.TTL = 20 * random(-3, 7);
-		
-		this.groudY = y + w;
+        this.life = 10;
+		this.TTL = this.life * random(-3, 4);
 		
 		this.x = x;
 		this.y = y;
 		
-		this.w = w * 0.6;
-		
-		this.col = w*10;
-		
-		var alpha = random(-Math.PI/8, Math.PI/8);
-		var beta = random(-Math.PI/8, Math.PI/8);
-		
-		/*
-		this.velX = this.w * sin(theta);
-		this.velY = -this.w * cos(theta);
-		*/
-		
-		this.velX = this.w * sin(alpha) * cos(beta);
-		this.velY = -this.w * cos(alpha); //-Math.abs(this.w * sin(alpha) * sin(beta));
-		this.velZ = 1; //this.w * cos(alpha);
-		/*
-		var ax = Math.abs(sin(theta));
-		var b = 1 - ax;
-		
-		this.velZ; //= random(0.95, 1.05); // <0.95, 1.05>
-		*/
+		this.w = w;
 	}
 	
-	this.draw = function() {		
-		if(this.y > this.groudY + this.w*3) {
+	this.draw = function() {
+        this.TTL--;
+      
+		if(this.TTL < 0) {
 			this.destroy();
 		}else {
-			this.velY += 0.8;
-			
-			this.x += this.velX;
-			this.y += this.velY;
-			this.w *= this.velZ;
-			
-			this.w *= this.velZ;
-		
-			if(this.y > WH) {
-				this.destroy();
-			}else {
-				fill(0, 0, this.col);
-				ellipse(this.x, this.y, this.w*0.6);
-			}
+			this.w += 2;
+
+            fill(0, 0, this.col, 100);
+            ellipse(this.x, this.y, this.w, this.w*0.3);
 		}
 	}
 	
@@ -93,7 +64,7 @@ function RainDrop() {
 	}
 	
 	this.draw = function() {
-		this.velY += 0.1;
+		this.velY += 1;
 		this.y += this.vel;
 		
 		if(this.y >= WH-(300/this.w)) {
@@ -125,7 +96,8 @@ function draw() {
 	noStroke();
 	
 	fill(180);
-	rect(0, WH-80, WW, 80);
+    var groundH = 160;
+	rect(0, WH-groundH, WW, groundH);
 	
 	for(var i=0; i<rainToSetup.length; i++) {
 		var drop = rainToSetup[i];
@@ -137,7 +109,8 @@ function draw() {
 	for(var i=0; i<rain.length; i++) {
 		rain[i].draw();
 	}
-	
+  
+    noFill();
 	for(var i=0; i<particles.length; i++) {
 		particles[i].draw();
 	}
