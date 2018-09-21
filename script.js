@@ -3,8 +3,8 @@ var counter = 0;
 
 var cw = 1.4;
 
-var WW = 520;
-var WH = 420;
+var WW = window.innerWidth;
+var WH = window.innerHeight - 4;
 
 var rainToSetup = [];
 var rain = [];
@@ -13,7 +13,7 @@ var particles = [];
 function setup() {
 	createCanvas(WW, WH);
 	
-	for(var i=0; i<30; i++) {
+	for(var i=0; i<100; i++) {
 		rain.push(new RainDrop()); 
 		rain[i].setup();
 	}
@@ -53,7 +53,7 @@ function Particle() {
 	}
 	
 	this.draw = function() {		
-		if(this.y > this.groudY) {
+		if(this.y > this.groudY + this.w*3) {
 			this.destroy();
 		}else {
 			this.velY += 0.8;
